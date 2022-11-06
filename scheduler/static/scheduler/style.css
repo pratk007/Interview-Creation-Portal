@@ -1,0 +1,86 @@
+/* Copyright (c) 2021 Jonathan Vice */
+
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    background-color: #ddd3ee;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.index-rooms-section {
+    max-width: 20%;
+    position: fixed;
+    right: 10px;
+    text-align: right;
+}
+
+.index-events-container, .index-rooms-section {
+    background-color: #8a2be2;
+    color: #ffffff;
+    padding: 14px;
+    text-align: center;
+}
+
+.index-events-container {
+    max-width: 50%;
+}
+
+.index-controls-section {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.btn, .index-controls-section button {
+    background-color: #8a2be2;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: medium;
+    font-weight: normal;
+    margin-bottom: 10px;
+    width: 150px;
+    padding: 10px;
+    border: 0;    
+}
+
+.index-controls-section button {
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px -2px gray;
+}
+
+.close {
+    cursor: pointer;
+    color: #000;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #ddd3ee;
+    margin: 15% auto;
+    padding: 20px;
+    padding-top: 5px;
+    border: 1px solid #888;
+    width: 250px;
+}

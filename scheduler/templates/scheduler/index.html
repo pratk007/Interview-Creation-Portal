@@ -1,0 +1,137 @@
+<!-- Copyright (c) 2021 Jonathan Vice -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Creation Portal</title>
+    <link rel="stylesheet" href="{% static 'scheduler/style.css' %}">
+</head>
+
+<body>
+    
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+    <h1>
+        Interview Creation Portal
+    </h1>
+    <div class="index-rooms-section">
+        <h2>Interviewees</h2>
+        <ul>
+        {% for room in data.rooms %}
+            <li>{{ room }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    
+    <div class="index-events-container">
+        <h2>Ongoing Interviews</h2>
+        <ul>
+        {% for event in data.current_events %}
+            <li>{{ event }} With {{ event.room|lower }} from {{ event.start_time|date:"N jS H:i" }} to {{ event.end_time|date:"N jS H:i" }}</li>
+        {% empty %}
+            <li>There are no ongoing interviews</li>
+        {% endfor %}
+        </ul>
+    </div><br>
+    
+    <div class="index-events-container">
+        <h2>Upcoming Interviews</h2>
+        <ul>
+        {% for event in data.upcoming_events %}
+            <li>{{ event }} with {{ event.room|lower }} from {{ event.start_time|date:"N jS H:i" }} to {{ event.end_time|date:"N jS H:i" }}</li>
+        {% empty %}
+            <li>There are no upcoming interviews</li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <div class="index-controls-section">
+        <button onclick="displayModal('add-room-modal')">Add Interviewee</button>
+        <button onclick="displayModal('add-event-modal')">Schedule Interview</button>
+        <button onclick="displayModal('del-room-modal')">Remove Interviewee</button>
+        <button onclick="displayModal('edit-event-modal')">Edit Interview Details</button>
+    </div>
+
+    <!-- Add room modal form -->
+    <div id="add-room-modal" class="modal">
+        <div class="modal-content">
+            <span id="add-room-modal-close" class="close">&times;</span>
+            <form action="{% url 'scheduler:add_room' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                <h3>Add Interviewee</h3>
+                {{ data.add_room_form.as_p }}
+                <input type="submit" value="Add" class="btn">
+            </form>
+        </div>
+    </div>
+
+    <!-- Deleting -->
+    <div id="del-room-modal" class="modal">
+        <div class="modal-content">
+            <span id="del-room-modal-close" class="close">&times;</span>
+            <form action="{% url 'scheduler:del_room' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                <h3>Remove Interviewee</h3>
+                {{ data.del_room_form.as_p }}
+                <input type="submit" value="Add" class="btn" name = "to_del_event">
+            </form>
+        </div>
+    </div>
+
+    <!-- Add event modal form -->
+    <div id="add-event-modal" class="modal">
+        <div class="modal-content">
+            <span id="add-event-modal-close" class="close">&times;</span>
+            <form action="{% url 'scheduler:add_event' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                <h3>Schedule Interview</h3>
+                {{ data.add_event_form.as_p }}
+
+                <p><label for="event-start-date">Start Date & Time</label><br>
+                <input type="date" name="event-start-date" id="event-start-date" required>
+                <input type="time" name="event-start-time" id="event-start-time" required></p>
+
+                <p><label for="event-end-date">End Date & Time</label><br>
+                <input type="date" name="event-end-date" id="event-end-date" required>
+                <input type="time" name="event-end-time" id="event-end-time" required></p>
+
+                <input type="submit" value="Add" class="btn">
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit event form -->
+    <div id="edit-event-modal" class="modal">
+        <div class="modal-content">
+            <span id="edit-event-modal-close" class="close">&times;</span>
+            <form action="{% url 'scheduler:edit_event' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                <h3>Edit interview</h3>
+                {{ data.edit_event_form.as_p }}
+
+                <p><label for="event-start-date">Start Date & Time</label><br>
+                <input type="date" name="event-start-date" id="event-start-date" required>
+                <input type="time" name="event-start-time" id="event-start-time" required></p>
+
+                <p><label for="event-end-date">End Date & Time</label><br>
+                <input type="date" name="event-end-date" id="event-end-date" required>
+                <input type="time" name="event-end-time" id="event-end-time" required></p>
+
+                <input type="submit" value="Add" class="btn">
+            </form>
+        </div>
+    </div>
+
+    <!-- Include js script -->
+    <script src="{% static 'scheduler/script.js' %}"></script>
+</body>
+</html>
